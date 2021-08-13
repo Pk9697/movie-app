@@ -16,8 +16,8 @@ function App() {
         </div>
 
         <div className="list">
-            {data.map(movie=>{
-              return <MovieCard movie={movie}/> //passing each movie to MovieCard using props
+            {data.map((movie,index)=>{
+              return <MovieCard movie={movie} key={`movies-${index}`}/> //passing each movie to MovieCard using props
             })}
         </div>
       </div>
