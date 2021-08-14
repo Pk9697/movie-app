@@ -8,16 +8,16 @@ import movies from './reducers';
 
 const store=createStore(movies);//store requires reducer to be passed to it
 console.log("store:",store);
-console.log("BEFORE STATE",store.getState());//getting state from reducers 
-store.dispatch({
-  type:'ADD_MOVIES',
-  movies:[{name:'Superman'}]
-});//dispatch fxn of store is required to send actions
+// console.log("BEFORE STATE",store.getState());//getting state from reducers 
+// store.dispatch({
+//   type:'ADD_MOVIES',
+//   movies:[{name:'Superman'}]
+// });//dispatch fxn of store is required to send actions
 
-console.log("AFTER STATE",store.getState());
+// console.log("AFTER STATE",store.getState());
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App store={store} />
   </React.StrictMode>,
   document.getElementById('root')
 );
