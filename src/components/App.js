@@ -19,6 +19,16 @@ class App extends React.Component {
     //?3
     console.log('STATE',store.getState());//*after that this console is executed acc to flow
   }
+  isMovieFavourite=(movie)=>{
+    const {favourites}=this.props.store.getState();
+    const index=favourites.indexOf(movie);//returns -1 if movie not found
+    if(index!==-1){
+      //found the movie
+      return true;
+    }
+
+    return false;
+  }
   render(){
     const {list}=this.props.store.getState();//{list:[],favourites:[]}
     console.log("RENDER",this.props.store.getState());
@@ -37,7 +47,12 @@ class App extends React.Component {
 
           <div className="list">
               {list.map((movie,index)=>{//getting each movie and its index while traversing list array
-                return <MovieCard movie={movie} key={`movies-${index}`}/> //passing each movie to MovieCard using props
+                return <MovieCard 
+                          movie={movie}  //passing each movie to MovieCard using props
+                          key={`movies-${index}`} 
+                          dispatch={this.props.store.dispatch}
+                          isFavourite={this.isMovieFavourite(movie)}
+                          /> 
               })}
           </div>
         </div>
