@@ -2,6 +2,7 @@ import {data} from '../data'
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import React from 'react';
+import { addMovies } from '../actions';
 
 class App extends React.Component {
 
@@ -14,10 +15,7 @@ class App extends React.Component {
       console.log('Updated');
       this.forceUpdate();//not recommended -should never use this
     })
-    store.dispatch({//? 1
-      type:'ADD_MOVIES',
-      movies: data
-    })
+    store.dispatch(addMovies(data));//?1 //returns object from actions 
     //?3
     console.log('STATE',store.getState());//*after that this console is executed acc to flow
   }
