@@ -20,8 +20,8 @@ class App extends React.Component {
     console.log('STATE',store.getState());//*after that this console is executed acc to flow
   }
   render(){
-    const movies=this.props.store.getState();
-    console.log("RENDER");
+    const {list}=this.props.store.getState();//{list:[],favourites:[]}
+    console.log("RENDER",this.props.store.getState());
     return (
       <div className="App">
         <Navbar/>
@@ -36,7 +36,7 @@ class App extends React.Component {
           </div>
 
           <div className="list">
-              {movies.map((movie,index)=>{
+              {list.map((movie,index)=>{//getting each movie and its index while traversing list array
                 return <MovieCard movie={movie} key={`movies-${index}`}/> //passing each movie to MovieCard using props
               })}
           </div>
