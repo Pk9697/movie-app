@@ -1,9 +1,10 @@
 //make pure fxns for predictability
 
-import { ADD_MOVIES,ADD_TO_FAVOURITES,REMOVE_FROM_FAVOURITES } from "../actions";
+import { ADD_MOVIES,ADD_TO_FAVOURITES,REMOVE_FROM_FAVOURITES,SET_SHOW_FAVOURITES } from "../actions";
 const initialMoviesState={
     list:[],
-    favourites:[]
+    favourites:[],
+    showFavourites:false
 }
 export default function movies(currentState=initialMoviesState,action){//we will be getting current state and action(where movies array is passed)
     // if(action.type===ADD_MOVIES){
@@ -37,6 +38,11 @@ export default function movies(currentState=initialMoviesState,action){//we will
                 favourites:filteredArray
             }
 
+        case SET_SHOW_FAVOURITES:
+            return {
+                ...currentState,
+                showFavourites: action.val //either true or false coming from actions
+            }
         default:
             return currentState;
     }
