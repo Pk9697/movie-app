@@ -6,7 +6,8 @@ const initialMoviesState={
     favourites:[],
     showFavourites:false
 }
-export default function movies(currentState=initialMoviesState,action){//we will be getting current state and action(where movies array is passed)
+export function movies(currentState=initialMoviesState,action){//we will be getting current state and action(where movies array is passed)
+    console.log("MOVIES REDUCER");
     // if(action.type===ADD_MOVIES){
     //     return {
     //         //using spread operators to return new state from initial currentstate and overriding list with arrays of movies coming from action.movies
@@ -48,4 +49,26 @@ export default function movies(currentState=initialMoviesState,action){//we will
     }
 }
 
+const initialSearchState={
+    result:{}
+};
+
+export function search(state=initialSearchState,action){
+    //no cases as of now
+    console.log("SEARCH REDUCER");
+
+    return state;
+}
+
+const initialRootState={//what would be the initial state or structure
+    movies:initialMoviesState,
+    search:initialSearchState
+}
+export default function rootReducer(state=initialRootState,action){
+
+    return {
+        movies: movies(state.movies,action),//movies should be managed by movie reducer by only passing movieState not the whole state
+        search: search(state.search,action)//search should be managed by search reducer by only passing searchState not the whole state
+    }
+}
   

@@ -20,8 +20,9 @@ class App extends React.Component {
     console.log('STATE',store.getState());//*after that this console is executed acc to flow
   }
   isMovieFavourite=(movie)=>{
-    const {favourites}=this.props.store.getState();
-    const index=favourites.indexOf(movie);//returns -1 if movie not found
+    const {movies}=this.props.store.getState();//{movies:{},search:{}} 
+
+    const index=movies.favourites.indexOf(movie);//returns -1 if movie not found
     if(index!==-1){
       //found the movie
       return true;
@@ -33,7 +34,8 @@ class App extends React.Component {
     this.props.store.dispatch(setShowFavourites(val))
   }
   render(){
-    const {list,favourites,showFavourites}=this.props.store.getState();//{list:[],favourites:[],showFavourites}
+    const {movies}=this.props.store.getState();//{movies:{},search:{}} 
+    const {list,favourites,showFavourites}=movies; //movies:{list:[],favourites:[],showFavourites}
     console.log("RENDER",this.props.store.getState());
 
     const displayMovies= showFavourites? favourites: list; //if showFavourites is true show movies from favourites array otherwise list array
