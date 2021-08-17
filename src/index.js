@@ -4,9 +4,9 @@ import { createStore } from 'redux';
 //we keep our file imports below package imports
 import './index.css';
 import App from './components/App';
-import rootReducer from './reducers';
+import combineReducers from './reducers';//optional combineReducers will be added default in create store cos we added default property to combineReducers 
 
-const store=createStore(rootReducer);//store requires reducer to be passed to it
+const store=createStore(combineReducers);//store requires reducer to be passed to it
 console.log("store:",store);
 // console.log("BEFORE STATE",store.getState());//getting state from reducers 
 // store.dispatch({

@@ -1,5 +1,5 @@
 //make pure fxns for predictability
-
+import { combineReducers } from "redux";
 import { ADD_MOVIES,ADD_TO_FAVOURITES,REMOVE_FROM_FAVOURITES,SET_SHOW_FAVOURITES } from "../actions";
 const initialMoviesState={
     list:[],
@@ -60,15 +60,20 @@ export function search(state=initialSearchState,action){
     return state;
 }
 
-const initialRootState={//what would be the initial state or structure
-    movies:initialMoviesState,
-    search:initialSearchState
-}
-export default function rootReducer(state=initialRootState,action){
+// const initialRootState={//what would be the initial state or structure
+//     movies:initialMoviesState,
+//     search:initialSearchState
+// }
+// export default function rootReducer(state=initialRootState,action){
 
-    return {
-        movies: movies(state.movies,action),//movies should be managed by movie reducer by only passing movieState not the whole state
-        search: search(state.search,action)//search should be managed by search reducer by only passing searchState not the whole state
-    }
-}
+//     return {
+//         movies: movies(state.movies,action),//movies should be managed by movie reducer by only passing movieState not the whole state
+//         search: search(state.search,action)//search should be managed by search reducer by only passing searchState not the whole state
+//     }
+// }
+
+export default combineReducers({//provided by react so we don't need to create rootReducer
+    movies:movies,//just passing the reference of movies reducer and search Reducer which works same as rootReducer passing state for each reducer
+    search:search//we can also use shortform just search cos property and value name is same
+});
   
