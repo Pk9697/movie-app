@@ -7,14 +7,20 @@ import App from './components/App';
 import combineReducers from './reducers';//optional combineReducers will be added default in create store cos we added default property to combineReducers 
 //using currying here of fxn logger(obj,next,action)
 //logger(obj)(next)(action) each part returns a fxn in which we pass next set of arguments one by one
-const logger=function({dispatch,getState}){//this fxn receives an argument obj which contains dispatch and getState properties//same as that of store which redux will pass in this logger fxn
-  return function(next){//next is used to switch to next middleware when multiple middlewares are present
-    return function(action){
-      //middleware code
-      console.log('ACTION_TYPE=',action.type);
-      next(action);//calling next middleware with action as arguments if next middleware is present otherwise next will call dispatch with action as argument
-    }
-  }
+// const logger=function({dispatch,getState}){//this fxn receives an argument obj which contains dispatch and getState properties//same as that of store which redux will pass in this logger fxn
+//   return function(next){//next is used to switch to next middleware when multiple middlewares are present
+//     return function(action){
+       //middleware code
+//       console.log('ACTION_TYPE=',action.type);
+//       next(action);//calling next middleware with action as arguments if next middleware is present otherwise next will call dispatch with action as argument
+//     }
+//   }
+// }
+//short form of above middleware
+const logger=({dispatch,getState})=>(next)=>(action)=>{
+  //logger code
+  console.log('ACTION_TYPE=',action.type);
+  next(action);
 }
 
 const store=createStore(combineReducers,applyMiddleware(logger));//store requires reducer to be passed to it
