@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore,applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 //we keep our file imports below package imports
 import './index.css';
 import App from './components/App';
@@ -19,11 +20,22 @@ import combineReducers from './reducers';//optional combineReducers will be adde
 //short form of above middleware
 const logger=({dispatch,getState})=>(next)=>(action)=>{
   //logger code
-  console.log('ACTION_TYPE=',action.type);
+  if(typeof action!=='function'){
+    console.log('ACTION_TYPE=',action.type);
+  }
   next(action);
 }
+//optional this middleware we created to handle action type if fxn is handled by thunk package which we imported in line 4
+// const thunk=({dispatch,getState})=>(next)=>(action)=>{
+//   //logger code
+//   if(typeof action==='function'){//for handle function(dispatch) in handleMovieSearch action
+//     action(dispatch);//1 here we dispatch an action if the action type is function
+//     return;
+//   }
+//   next(action);//2 otherwise we return action as an object to next middleware if present or dispatch this action if no middleware present
+// }
 
-const store=createStore(combineReducers,applyMiddleware(logger));//store requires reducer to be passed to it
+const store=createStore(combineReducers,applyMiddleware(logger,thunk));//store requires reducer to be passed to it
 console.log("store:",store);
 // console.log("BEFORE STATE",store.getState());//getting state from reducers 
 // store.dispatch({

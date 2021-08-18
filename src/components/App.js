@@ -1,6 +1,6 @@
 import {data} from '../data'
 import Navbar from './Navbar';
-import MovieCard from './MovieCard';
+import MovieCard from './MovieCard'; 
 import React from 'react';
 import { addMovies,setShowFavourites } from '../actions';
 
@@ -41,7 +41,8 @@ class App extends React.Component {
     const displayMovies= showFavourites? favourites: list; //if showFavourites is true show movies from favourites array otherwise list array
     return (
       <div className="App">
-        <Navbar/>
+        <Navbar 
+          dispatch={this.props.store.dispatch}/>
         <div className="main">
           <div className="tabs">
           {/* we need to call the fxn instead of passing the reference so that vvalue can be passed as argument */}
