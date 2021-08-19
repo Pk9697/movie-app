@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import MovieCard from './MovieCard'; 
 import React from 'react';
 import { addMovies,setShowFavourites } from '../actions';
+import {StoreContext} from '../index';
 
 class App extends React.Component {
 
@@ -37,40 +38,50 @@ class App extends React.Component {
     const {movies,search}=this.props.store.getState();//{movies:{},search:{}} 
     const {list,favourites,showFavourites}=movies; //movies:{list:[],favourites:[],showFavourites}
     console.log("RENDER",this.props.store.getState());
-
     const displayMovies= showFavourites? favourites: list; //if showFavourites is true show movies from favourites array otherwise list array
-    return (
-      <div className="App">
-        <Navbar 
-          dispatch={this.props.store.dispatch}
-          search={search}
-          />
-        <div className="main">
-          <div className="tabs">
-          {/* we need to call the fxn instead of passing the reference so that vvalue can be passed as argument */}
-              <div className={`tab ${showFavourites?'':'active-tabs'}`} onClick={()=>{this.onChangeTab(false)}}>
-                Movies
-              </div>
-              <div className={`tab ${showFavourites?'active-tabs':''}`} onClick={()=>{this.onChangeTab(true)}}>
-                Favourites
-              </div>
-          </div>
 
-          <div className="list">
-              {displayMovies.map((movie,index)=>{//getting each movie and its index while traversing list array
-                return <MovieCard 
-                          movie={movie}  //passing each movie to MovieCard using props
-                          key={`movies-${index}`} 
-                          dispatch={this.props.store.dispatch}
-                          isFavourite={this.isMovieFavourite(movie)}
-                          /> 
-              })}
-          </div>
+    return(
+      //this consumer method can only be used inside render methos which causes a problem as store is needed elsewhere too
+      <StoreContext.Consumer>
+        {/* this is the fxn which Consumer expects where store is passed as an argument to this fxn which can be named anything by us which is passed through value in StoreContext.Provider in index.js*/}
+        {(store)=>{
 
-          {displayMovies.length===0?<div className="no-movies">No movies to display! </div> : null}
-        </div>
-      </div>
+              return (
+                <div className="App">
+                  <Navbar 
+                    dispatch={this.props.store.dispatch}
+                    search={search}
+                    />
+                  <div className="main">
+                    <div className="tabs">
+                    {/* we need to call the fxn instead of passing the reference so that vvalue can be passed as argument */}
+                        <div className={`tab ${showFavourites?'':'active-tabs'}`} onClick={()=>{this.onChangeTab(false)}}>
+                          Movies
+                        </div>
+                        <div className={`tab ${showFavourites?'active-tabs':''}`} onClick={()=>{this.onChangeTab(true)}}>
+                          Favourites
+                        </div>
+                    </div>
+
+                    <div className="list">
+                        {displayMovies.map((movie,index)=>{//getting each movie and its index while traversing list array
+                          return <MovieCard 
+                                    movie={movie}  //passing each movie to MovieCard using props
+                                    key={`movies-${index}`} 
+                                    dispatch={this.props.store.dispatch}
+                                    isFavourite={this.isMovieFavourite(movie)}
+                                    /> 
+                        })}
+                    </div>
+
+                    {displayMovies.length===0?<div className="no-movies">No movies to display! </div> : null}
+                  </div>
+                </div>
+              );
+        }}
+      </StoreContext.Consumer>
     );
+
   }
 }
 

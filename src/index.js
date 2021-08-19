@@ -42,6 +42,15 @@ export const StoreContext=createContext();
 
 console.log('StoreContext',StoreContext);
 
+class Provider extends React.Component{
+  render(){
+    const {store}=this.props;
+    return <StoreContext.Provider value={store}>
+      {/* this refers to whatever we pass(components) in between Provider which will thus render app component */}
+      {this.props.children}  
+    </StoreContext.Provider>
+  }
+}
 // console.log("BEFORE STATE",store.getState());//getting state from reducers 
 // store.dispatch({
 //   type:'ADD_MOVIES',
@@ -51,9 +60,9 @@ console.log('StoreContext',StoreContext);
 // console.log("AFTER STATE",store.getState());
 //passing store to each and every component of App
 ReactDOM.render(
-  <StoreContext.Provider value={store}>
+  <Provider store={store}>
     <App store={store} />
-  </StoreContext.Provider>
+  </Provider>
   ,document.getElementById('root')
 );
 
