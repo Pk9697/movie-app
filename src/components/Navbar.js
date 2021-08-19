@@ -1,6 +1,8 @@
 
 import React from 'react';
 import {addMovieToList,handleMovieSearch} from '../actions';
+import {StoreContext} from '../index';
+
 
 class Navbar extends React.Component {
 
@@ -58,5 +60,18 @@ class Navbar extends React.Component {
         );
    }
 }
+class NavbarWrapper extends React.Component{
+    render(){
+      return(
+        //instead of using Consumer inside App we use it inside app wrapper and wrap App component inside Consumer and pass store as props
+        <StoreContext.Consumer>
+          {(store)=>
+            <Navbar dispatch={store.dispatch} search={this.props.search}/>
+          }
+        </StoreContext.Consumer>
+        //search here is received from App component as props so as we are using props from NavbarWrapper we need to omport this search prop from this.props
+      );
+    }
+  }
 
-export default Navbar;
+export default NavbarWrapper;

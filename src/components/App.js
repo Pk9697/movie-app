@@ -43,8 +43,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar 
-          dispatch={this.props.store.dispatch}
-          search={search}
+          search={search}  //this prop will be sent to navbar wrapper by default so we need to fetch this inside navbar wrapper then pass it as prop to navbar
           />
         <div className="main">
           <div className="tabs">
