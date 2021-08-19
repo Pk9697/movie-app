@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore,applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -37,6 +37,11 @@ const logger=({dispatch,getState})=>(next)=>(action)=>{
 
 const store=createStore(combineReducers,applyMiddleware(logger,thunk));//store requires reducer to be passed to it
 console.log("store:",store);
+
+export const StoreContext=createContext();
+
+console.log('StoreContext',StoreContext);
+
 // console.log("BEFORE STATE",store.getState());//getting state from reducers 
 // store.dispatch({
 //   type:'ADD_MOVIES',
@@ -44,11 +49,12 @@ console.log("store:",store);
 // });//dispatch fxn of store is required to send actions
 
 // console.log("AFTER STATE",store.getState());
+//passing store to each and every component of App
 ReactDOM.render(
-  <React.StrictMode>
+  <StoreContext.Provider value={store}>
     <App store={store} />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StoreContext.Provider>
+  ,document.getElementById('root')
 );
 
 
