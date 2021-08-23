@@ -1,8 +1,10 @@
 
 import React from 'react';
+import {connect} from 'react-redux';
+
 import {addMovieToList,handleMovieSearch} from '../actions';
 // import {StoreContext} from '../index';
-import {connect} from '../index';
+
 
 
 class Navbar extends React.Component {
@@ -15,9 +17,9 @@ class Navbar extends React.Component {
     }
     handleAddToMovies=(movie)=>{
         this.props.dispatch(addMovieToList(movie));
-        this.setState({
-            showSearchResults:false
-        });
+        // this.setState({
+        //     showSearchResults:false
+        // });
     }
 
     handleSearch=()=>{

@@ -1,6 +1,8 @@
 import React from "react"; 
+import {connect} from 'react-redux';
+
 import { addFavourite, removeFromFavourites } from "../actions";
-import {connect} from '../index';
+// import {connect} from '../index';
 
 class MovieCard extends React.Component {
 
@@ -38,11 +40,11 @@ class MovieCard extends React.Component {
     }
   }
 
-//  function callback(state){
-//       return{
-//         search:state.search
-//       };
-//   }
+ function callback(state){
+      return{
+        search:state.search
+      };
+  }
 
-//   const connectedAppComponent=connect(callback)(MovieCard); 
-  export default MovieCard;
+  const connectedAppComponent=connect(callback)(MovieCard); 
+  export default connectedAppComponent;

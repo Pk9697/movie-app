@@ -1,9 +1,11 @@
+import React from 'react';
+import {connect} from 'react-redux';
+
 import {data} from '../data'
 import Navbar from './Navbar';
 import MovieCard from './MovieCard'; 
-import React from 'react';
 import { addMovies,setShowFavourites } from '../actions';
-import {connect} from '../index';
+// import {connect} from '../index';
 
 class App extends React.Component {
 
@@ -29,8 +31,8 @@ class App extends React.Component {
     this.props.dispatch(setShowFavourites(val))
   }
   render(){
-    const {movies,search}=this.props;//{movies:{},search:{}} 
-    const {list,favourites,showFavourites}=movies; //movies:{list:[],favourites:[],showFavourites}
+    const {movies}=this.props;//{movies:{},search:{}} 
+    const {list,favourites=[],showFavourites=[]}=movies; //movies:{list:[],favourites:[],showFavourites}
     // console.log("RENDER",this.props.store.getState());
 
     const displayMovies= showFavourites? favourites: list; //if showFavourites is true show movies from favourites array otherwise list array
@@ -55,7 +57,7 @@ class App extends React.Component {
                 return <MovieCard 
                           movie={movie}  //passing each movie to MovieCard using props
                           key={`movies-${index}`} 
-                          dispatch={this.props.dispatch}
+              
                           isFavourite={this.isMovieFavourite(movie)}
                           /> 
               })}
