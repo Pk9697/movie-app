@@ -48,7 +48,7 @@ export function movies(currentState=initialMoviesState,action){//we will be gett
         case ADD_MOVIE_TO_LIST:
             return{
                 ...currentState,
-                list:[action.movie,...currentState.list]
+                list:[action.movie,...currentState.list] 
 
             }
         default:

@@ -37,7 +37,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar 
-          search={search}  //this prop will be sent to navbar wrapper by default so we need to fetch this inside navbar wrapper then pass it as prop to navbar
+          // search={search}  //this prop will be sent to navbar wrapper by default so we need to fetch this inside navbar wrapper then pass it as prop to navbar
           />
         <div className="main">
           <div className="tabs">
@@ -85,7 +85,7 @@ function callback(state){//what prop i want from the store to be used in my comp
 
   return{//we want this amount of data to be passed in my component as props
     movies:state.movies,
-    search:state.search
+    // search:state.search
   };
 
 }
