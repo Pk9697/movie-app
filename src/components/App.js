@@ -3,25 +3,19 @@ import Navbar from './Navbar';
 import MovieCard from './MovieCard'; 
 import React from 'react';
 import { addMovies,setShowFavourites } from '../actions';
-import {StoreContext} from '../index';
+import {connect} from '../index';
 
 class App extends React.Component {
 
   componentDidMount(){
     //make api calls here to get movies from api 
     //dispatch action to store to add data from api calls to store
-    const {store} =this.props;
-    //? 2
-    store.subscribe(()=>{//*whenever we dispatch an action this subscription callback is called and thus displays updated from console 
-      console.log('Updated');
-      this.forceUpdate();//not recommended -should never use this
-    })
-    store.dispatch(addMovies(data));//?1 //returns object from actions 
-    //?3
-    console.log('STATE',store.getState());//*after that this console is executed acc to flow
+   
+    this.props.dispatch(addMovies(data));
+   
   }
   isMovieFavourite=(movie)=>{
-    const {movies}=this.props.store.getState();//{movies:{},search:{}} 
+    const {movies}=this.props;//{movies:{},search:{}} 
 
     const index=movies.favourites.indexOf(movie);//returns -1 if movie not found
     if(index!==-1){
@@ -32,12 +26,12 @@ class App extends React.Component {
     return false;
   }
   onChangeTab=(val)=>{
-    this.props.store.dispatch(setShowFavourites(val))
+    this.props.dispatch(setShowFavourites(val))
   }
   render(){
-    const {movies,search}=this.props.store.getState();//{movies:{},search:{}} 
+    const {movies,search}=this.props;//{movies:{},search:{}} 
     const {list,favourites,showFavourites}=movies; //movies:{list:[],favourites:[],showFavourites}
-    console.log("RENDER",this.props.store.getState());
+    // console.log("RENDER",this.props.store.getState());
 
     const displayMovies= showFavourites? favourites: list; //if showFavourites is true show movies from favourites array otherwise list array
     return (
@@ -61,7 +55,7 @@ class App extends React.Component {
                 return <MovieCard 
                           movie={movie}  //passing each movie to MovieCard using props
                           key={`movies-${index}`} 
-                          dispatch={this.props.store.dispatch}
+                          dispatch={this.props.dispatch}
                           isFavourite={this.isMovieFavourite(movie)}
                           /> 
               })}
@@ -74,17 +68,28 @@ class App extends React.Component {
   }
 }
 
-class AppWrapper extends React.Component{
-  render(){
-    return(
-      //instead of using Consumer inside App we use it inside app wrapper and wrap App component inside Consumer and pass store as props
-      <StoreContext.Consumer>
-        {(store)=>
-          <App store={store}/>
-        }
-      </StoreContext.Consumer>
-    );
-  }
-}
+// class AppWrapper extends React.Component{
+//   render(){
+//     return(
+//       //instead of using Consumer inside App we use it inside app wrapper and wrap App component inside Consumer and pass store as props
+//       <StoreContext.Consumer>
+//         {(store)=>
+//           <App store={store}/>
+//         }
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
 
-export default AppWrapper;
+function callback(state){//what prop i want from the store to be used in my component
+
+  return{//we want this amount of data to be passed in my component as props
+    movies:state.movies,
+    search:state.search
+  };
+
+}
+//connect fxn will return whole New Component
+//callback or mapStateToProps (general name which react community uses)
+const connectedAppComponent=connect(callback)(App);//connecting our app to the store
+export default connectedAppComponent;//and then exporting

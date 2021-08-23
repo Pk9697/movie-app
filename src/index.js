@@ -51,6 +51,48 @@ class Provider extends React.Component{
     </StoreContext.Provider>
   }
 }
+
+// const connectedAppComponent=connect(callback)(App);
+export function connect(callback){
+  return function(Component){
+    class ConnectedComponent extends React.Component{
+      constructor(props){
+        super(props);
+        //subscribe to render this component
+        //* when we call subscribe it will eventually call another fxn unsubscribe to prevent memory leaks when any component is destroyed
+        this.unsubscribe=this.props.store.subscribe(()=>this.forceUpdate());//we dont have access to props store here so we need to wrap this component
+      }
+
+      componentWillUnmount(){
+        this.unsubscribe();
+      }
+
+      render(){
+        const {store}=this.props;
+        const state=store.getState();
+        const dataToBePassedAsProps=callback(state);//callback state will return object which we want from state
+        return (
+          <Component 
+            {...dataToBePassedAsProps} //movies:{} search:{} //shortform using spread operators
+            dispatch={store.dispatch}
+          />
+        );
+      }
+    }
+    class ConnectedComponentWrapper extends React.Component{
+      render(){//grabbing store and passing it as props to Connected component so that we can use store in constructor to subscribe to store
+          return (
+          <StoreContext.Consumer>
+            {store=><ConnectedComponent store={store}/>}
+          </StoreContext.Consumer>
+          );
+      }
+    }
+    return ConnectedComponentWrapper;
+  };
+}
+
+
 // console.log("BEFORE STATE",store.getState());//getting state from reducers 
 // store.dispatch({
 //   type:'ADD_MOVIES',
@@ -58,6 +100,7 @@ class Provider extends React.Component{
 // });//dispatch fxn of store is required to send actions
 
 // console.log("AFTER STATE",store.getState());
+
 //passing store to each and every component of App
 ReactDOM.render(
   <Provider store={store}>
